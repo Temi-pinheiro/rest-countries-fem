@@ -1,3 +1,9 @@
+import { Link } from '@tanstack/react-router';
+
 export const Country = () => {
-  return <div>Country</div>;
+  return (
+    <div>
+      <Link to='/'>Counry</Link>
+    </div>
+  );
 };
