@@ -5,22 +5,23 @@ import { useState } from 'react';
 
 export const Countries = () => {
   const [countries, setCountries] = useState<Country[] | undefined>();
-  const { data } = useQuery<Country[], any>({
+  const { data, isLoading } = useQuery<Country[], any>({
     queryKey: ['countries'],
     queryFn: async () => {
       const countries = await getAllCountries();
       setCountries(countries);
       return countries;
     },
+    refetchOnMount: true,
   });
 
-  return !countries ? (
+  return isLoading ? (
     <div>Loading...</div>
   ) : (
     <div>
       <ul>
-        {countries.map((country) => (
-          <li>
+        {countries?.map((country) => (
+          <li key={country.name.common}>
             <Link to='/$country' params={{ country: country.name.official }}>
               {country.name.common}
             </Link>

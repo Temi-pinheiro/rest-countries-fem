@@ -2,12 +2,7 @@ type Country = {
   name: {
     common: string;
     official: string;
-    nativeName: {
-      ['abbr']: {
-        official: string;
-        common: string;
-      };
-    };
+    nativeName: Record<string, { official: string; common: string }>;
   };
   tld: string[];
   cca2: string;
@@ -16,12 +11,8 @@ type Country = {
   independent: boolean;
   status: string;
   unMember: boolean;
-  currencies: {
-    ['symbol']: {
-      name: string;
-      symbol: string;
-    };
-  };
+  currencies: Record<string, { name: string; symbol: string }>;
+
   idd: {
     root: string;
     suffixes: string[];
@@ -30,9 +21,7 @@ type Country = {
   altSpellings: string[];
   region: string;
   subregion: string;
-  languages: {
-    eng: string;
-  };
+  languages: Record<string, string>;
   translations: Record<string, { official: string; common: string }>;
   latlng: [number, number];
   landlocked: boolean;
@@ -60,6 +49,7 @@ type Country = {
     png: string;
     svg: string;
   };
+  borders: string[];
   coatOfArms?: any;
   startOfWeek: string;
   capitalInfo: {
