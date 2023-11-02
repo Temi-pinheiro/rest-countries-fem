@@ -1,5 +1,6 @@
 import { Link } from '@tanstack/react-router';
 import { motion } from 'framer-motion';
+import { Helmet } from 'react-helmet-async';
 export const Country = ({
   country,
   countries,
@@ -44,115 +45,127 @@ export const Country = ({
     return languages.join(', ');
   };
   return (
-    <div className='w-full h-full py-10 px-12 md:p-20 flex flex-col flex-1'>
-      <Link
-        to='/'
-        className='flex items-center gap-x-4 fill-[#111517] dark:fill-[white] text-[#111517] dark:text-[white] transition dark:hover:bg-[#425567] dark:bg-[#2B3844] rounded-md w-[136px] py-[10px] justify-center ease-in-out duration-300'
-      >
-        <svg
-          width='20'
-          height='20'
-          viewBox='0 0 20 20'
-          xmlns='http://www.w3.org/2000/svg'
+    <>
+      <Helmet>
+        <title>{country.name.official}</title>
+        <link rel='icon' type='image/svg+xml' href={country.flags.svg} />
+        <meta
+          name={'country - ' + country.name.official}
+          content={
+            'REST Countries API info display for' + country.name.official
+          }
+        />
+      </Helmet>
+      <div className='w-full h-full py-10 px-12 md:p-20 flex flex-col flex-1'>
+        <Link
+          to='/'
+          className='flex items-center gap-x-4 fill-[#111517] dark:fill-[white] text-[#111517] dark:text-[white] transition dark:hover:bg-[#425567] dark:bg-[#2B3844] rounded-md w-[136px] py-[10px] justify-center ease-in-out duration-300'
         >
-          <g id='call-made'>
-            <path
-              id='Shape'
-              fillRule='evenodd'
-              fill='inherit'
-              clipRule='evenodd'
-              d='M6.46447 4.10744L7.64298 5.28596L3.75389 9.17504L18.6031 9.17504L18.6031 10.825L3.75389 10.825L7.64298 14.714L6.46447 15.8926L0.57191 10L6.46447 4.10744Z'
+          <svg
+            width='20'
+            height='20'
+            viewBox='0 0 20 20'
+            xmlns='http://www.w3.org/2000/svg'
+          >
+            <g id='call-made'>
+              <path
+                id='Shape'
+                fillRule='evenodd'
+                fill='inherit'
+                clipRule='evenodd'
+                d='M6.46447 4.10744L7.64298 5.28596L3.75389 9.17504L18.6031 9.17504L18.6031 10.825L3.75389 10.825L7.64298 14.714L6.46447 15.8926L0.57191 10L6.46447 4.10744Z'
+              />
+            </g>
+          </svg>
+          Back
+        </Link>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          key={country.cca3}
+          className='mt-16 md:mt-20 flex flex-col md:flex-row md:items-center w-full md:gap-x-[120px]'
+        >
+          <span className='w-full rounded-[10px] max-w-[560px] h-[275px] md:h-max xl:h-[400px] max-h-[400px] shrink'>
+            <img
+              className='object-center object-cover rounded-[10px] h-full w-full shrink'
+              src={country.flags.svg}
             />
-          </g>
-        </svg>
-        Back
-      </Link>
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        key={country.cca3}
-        className='mt-16 md:mt-20 flex flex-col md:flex-row md:items-center w-full md:gap-x-[120px]'
-      >
-        <span className='w-full rounded-[10px] max-w-[560px] h-[275px] md:h-max xl:h-[400px] max-h-[400px] shrink'>
-          <img
-            className='object-center object-cover rounded-[10px] h-full w-full shrink'
-            src={country.flags.svg}
-          />
-        </span>
-        <div className='w-full mt-11 md:mt-0'>
-          <h1 className='font-extrabold text-[22px] md:text-[32px] w-full'>
-            {country.name.official}
-          </h1>
-          <section className='w-full mt-4 md:mt-6 gap-y-8 md:gap-y-0 text-sm md:text-base flex flex-col md:flex-row items-start md:justify-between max-w-[598px]'>
-            <ul className='flex flex-col gap-y-2 md:max-w-[250px]'>
-              <li>
-                <strong className='font-semibold'>Native Name: </strong>
-                <span>{getNativeNames()}</span>
-              </li>
-              <li>
-                <strong className='font-semibold'>Population: </strong>
-                <span>{getCommaSepertatedNumber(country.population)}</span>
-              </li>
-              <li>
-                <strong className='font-semibold'>Region: </strong>
-                <span>{country.region}</span>
-              </li>
-              <li>
-                <strong className='font-semibold'>Sub Region: </strong>
-                <span>{country.subregion}</span>
-              </li>
-              <li>
-                <strong className='font-semibold'>Capital: </strong>
-                <span>{country.capital}</span>
-              </li>
-            </ul>
-            <ul className='flex flex-col gap-y-2 md:max-w-[300px]'>
-              <li>
-                <strong className='font-semibold'>Top Level Domain: </strong>
-                <span>{country.tld}</span>
-              </li>
-              <li>
-                <strong className='font-semibold'>Currencies: </strong>
-                <span>{getCurrencies()}</span>
-              </li>
-              <li>
-                <strong className='font-semibold'>Languages: </strong>
-                <span>{getLanguages()}</span>
-              </li>
-              <li>
-                <strong className='font-semibold'>Find on Map: </strong>
-                <a
-                  href={country.maps.googleMaps}
-                  className='underline underline-offset-4'
-                  target='_blank'
-                >
-                  Google Maps
-                </a>
-              </li>
-            </ul>
-          </section>
-          {country.borders ? (
-            <footer className='mt-8 md:mt-[70px] flex flex-col md:flex-row md:items-center'>
-              <span className='font-semibold'>Border Countries: </span>
-              <ul className='flex items-center gap-3 flex-wrap mt-4 md:mt-0 md:ml-4'>
-                {country.borders.map((border) => (
-                  <li
-                    className='px-5 shadow text-xs md:text-base rounded-sm py-1 dark:shadow-none dark:bg-[#2B3844]'
-                    key={border}
-                  >
-                    <Link
-                      to='/$country'
-                      params={{ country: getCountry(border)! }}
-                    >
-                      {getBorder(border)}
-                    </Link>
-                  </li>
-                ))}
+          </span>
+          <div className='w-full mt-11 md:mt-0'>
+            <h1 className='font-extrabold text-[22px] md:text-[32px] w-full'>
+              {country.name.official}
+            </h1>
+            <section className='w-full mt-4 md:mt-6 gap-y-8 md:gap-y-0 text-sm md:text-base flex flex-col md:flex-row items-start md:justify-between max-w-[598px]'>
+              <ul className='flex flex-col gap-y-2 md:max-w-[250px]'>
+                <li>
+                  <strong className='font-semibold'>Native Name: </strong>
+                  <span>{getNativeNames()}</span>
+                </li>
+                <li>
+                  <strong className='font-semibold'>Population: </strong>
+                  <span>{getCommaSepertatedNumber(country.population)}</span>
+                </li>
+                <li>
+                  <strong className='font-semibold'>Region: </strong>
+                  <span>{country.region}</span>
+                </li>
+                <li>
+                  <strong className='font-semibold'>Sub Region: </strong>
+                  <span>{country.subregion}</span>
+                </li>
+                <li>
+                  <strong className='font-semibold'>Capital: </strong>
+                  <span>{country.capital}</span>
+                </li>
               </ul>
-            </footer>
-          ) : null}
-        </div>
-      </motion.div>
-    </div>
+              <ul className='flex flex-col gap-y-2 md:max-w-[300px]'>
+                <li>
+                  <strong className='font-semibold'>Top Level Domain: </strong>
+                  <span>{country.tld}</span>
+                </li>
+                <li>
+                  <strong className='font-semibold'>Currencies: </strong>
+                  <span>{getCurrencies()}</span>
+                </li>
+                <li>
+                  <strong className='font-semibold'>Languages: </strong>
+                  <span>{getLanguages()}</span>
+                </li>
+                <li>
+                  <strong className='font-semibold'>Find on Map: </strong>
+                  <a
+                    href={country.maps.googleMaps}
+                    className='underline underline-offset-4'
+                    target='_blank'
+                  >
+                    Google Maps
+                  </a>
+                </li>
+              </ul>
+            </section>
+            {country.borders ? (
+              <footer className='mt-8 md:mt-[70px] flex flex-col md:flex-row md:items-center'>
+                <span className='font-semibold'>Border Countries: </span>
+                <ul className='flex items-center gap-3 flex-wrap mt-4 md:mt-0 md:ml-4'>
+                  {country.borders.map((border) => (
+                    <li
+                      className='px-5 shadow text-xs md:text-base rounded-sm py-1 dark:shadow-none dark:bg-[#2B3844]'
+                      key={border}
+                    >
+                      <Link
+                        to='/$country'
+                        params={{ country: getCountry(border)! }}
+                      >
+                        {getBorder(border)}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </footer>
+            ) : null}
+          </div>
+        </motion.div>
+      </div>
+    </>
   );
 };
