@@ -29,12 +29,18 @@ export const Country = ({
     return amount ? new Intl.NumberFormat().format(amount) : null;
   };
   const getCurrencies = () => {
+    if (!country.currencies) return 'N/A';
     const currencies = [];
+    const entries = Object.entries(country.currencies);
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    for (const [_, val] of Object.entries(country.currencies)) {
+    for (const [_, val] of entries) {
       currencies.push(val.name);
     }
-    return currencies.join(', ');
+    if (currencies) {
+      return currencies.join(', ');
+    } else {
+      return 'N/A';
+    }
   };
   const getLanguages = () => {
     const languages = [];
