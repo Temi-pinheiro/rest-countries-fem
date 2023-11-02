@@ -1,17 +1,10 @@
-.select-label {
-  @apply text-sm relative mb-[6px] block;
-}
-
 .select-input {
-  box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
-  @apply pl-[10px] min-w-[100px] w-full pr-8 py-3  outline-none text-black border-[#E6E8F0] border placeholder:text-[#181818] rounded-[4px] read-only:bg-[#F3F4F9] read-only:focus:bg-gray-200 read-only:text-gray-500 read-only:focus:text-gray-500 text-sm read-only:border-none focus:border-primary  transition-all ease-in-out duration-200;
+  @apply min-w-[200px] w-full px-6 py-[18px]  bg-white dark:bg-[#2B3844]  outline-none shadow dark:shadow-none rounded-[5px] text-sm;
 }
 
 .dropdown-options-container {
-  @apply bg-white z-10 min-w-min max-h-[190px] overflow-y-scroll absolute mt-2 left-0 w-full border rounded-[4px] border-[#E2E6ED];
-  box-shadow: 0px 0px 1px rgba(48, 49, 51, 0.05),
-    0px 16px 24px rgba(48, 49, 51, 0.1);
+  @apply z-10 bg-white dark:bg-[#2B3844]  overflow-y-scroll absolute shadow mt-6 left-0 w-full rounded-[4px];
 }
 .dropdown-options-container li {
-  @apply bg-white py-3 px-4 text-[#6C798F] border-b border-[#E2E6ED] last:border-none hover:bg-[#F9F9FC] cursor-pointer transition duration-300 ease-in-out;
+  @apply bg-transparent py-3 px-4 hover:bg-[#edf3f8] dark:hover:bg-[#3a4b5b] cursor-pointer transition duration-300 ease-in-out;
 }

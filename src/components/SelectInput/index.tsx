@@ -24,18 +24,15 @@ export const SelectInput = ({
   options,
   name,
   useLabel,
-  defaultValue,
+  // defaultValue,
   onChange,
   placeholder,
   required = false,
   hint,
 }: SelectElementProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [filteredOptions, setFilteredOptions] = useState(options);
   const dropdownContainerRef = useRef<HTMLDivElement>(null);
-  const searchRef = useRef<HTMLInputElement>(null);
-  const handleSelect = (option) => {
+  const handleSelect = (option: any) => {
     onChange({
       target: {
         name: name,
@@ -44,32 +41,22 @@ export const SelectInput = ({
       },
     });
     setIsOpen(false);
-    setSearchTerm(option.label);
   };
   const handleOpen = () => {
-    setIsOpen(true);
-    setSearchTerm('');
-    if (searchRef.current) searchRef.current.value = '';
+    setIsOpen((prev) => !prev);
   };
   const handleClose = () => {
     setIsOpen(false);
-    setSearchTerm(getLabel(defaultValue));
   };
-  const getLabel = (value: any) => {
-    const val = value || defaultValue;
-    if (!val) return '';
-    const [result] = options.filter((opt) =>
-      useLabel ? opt.label == val : opt.value == val
-    );
-    return result?.label || '';
-  };
-  useEffect(() => {
-    // Filter options based on the search term
-    const filtered = options.filter((option) =>
-      option.label.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    setFilteredOptions(filtered);
-  }, [searchTerm, options]);
+  // const getLabel = (value: any) => {
+  //   const val = value || defaultValue;
+  //   if (!val) return '';
+  //   const [result] = options.filter((opt) =>
+  //     useLabel ? opt.label == val : opt.value == val
+  //   );
+  //   return result?.label || '';
+  // };
+
   useEffect(() => {
     // Event listener for clicks outside the component
     const handleClickOutside = (e: any) => {
@@ -98,8 +85,11 @@ export const SelectInput = ({
           {required && <span className='input--required'></span>}
         </label>
       )}
-      <div className=' relative ' ref={dropdownContainerRef}>
-        <input
+      <div className=' relative select-input ' ref={dropdownContainerRef}>
+        <button className='w-full text-left' onClick={handleOpen} type='button'>
+          {placeholder}
+        </button>
+        {/* <input
           type='text'
           id={name}
           ref={searchRef}
@@ -110,7 +100,7 @@ export const SelectInput = ({
           onClick={handleOpen}
           onFocus={handleOpen}
           onChange={(e) => setSearchTerm(e.target.value)}
-        />
+        /> */}
         <AnimatePresence>
           {isOpen && (
             <motion.ul
@@ -120,12 +110,7 @@ export const SelectInput = ({
               transition={{ duration: 0.18 }}
               className='dropdown-options-container'
             >
-              {options.length > 3 && (
-                <span className='bg-[#F9F9FC] bg-[] rounded-t-[4px] border-b block border-[#E6E8F0] py-2 px-3 w-full text-[#6C798F]'>
-                  Search
-                </span>
-              )}
-              {filteredOptions.map((option) => (
+              {options.map((option) => (
                 <li key={option.value} onClick={() => handleSelect(option)}>
                   {option.label}
                 </li>
@@ -133,7 +118,11 @@ export const SelectInput = ({
             </motion.ul>
           )}
         </AnimatePresence>
-        <span onClick={handleOpen} className='absolute right-2 top-3'>
+        <button
+          type='button'
+          className='absolute right-2 top-4'
+          onClick={handleOpen}
+        >
           <motion.svg
             animate={{ rotate: isOpen ? 180 : 0 }}
             width='24'
@@ -145,47 +134,15 @@ export const SelectInput = ({
             <path
               d='M6 9L12 15L18 9'
               stroke='#6C798F'
-              stroke-width='2'
-              stroke-linecap='round'
-              stroke-linejoin='round'
+              strokeWidth='2'
+              strokeLinecap='round'
+              strokeLinejoin='round'
             />
           </motion.svg>
-        </span>
+        </button>
       </div>
 
       <span className='text-sm font-medium  '>{hint}</span>
     </div>
   );
 };
-
-//Legacy Code
-//  <div className={`select-container ${label && ' gap-y-[6px]'}`}>
-//    {label && (
-//      <label className='select-label' htmlFor={name}>
-//        {label}
-//        {required && <span className='input--required'></span>}
-//      </label>
-//    )}
-//    <div className='select-menu-container group'>
-//      <select
-//        onChange={onChange}
-//        className='select'
-//        name={name}
-//        id={name}
-//        required={required}
-//        defaultValue={defaultValue}
-//      >
-//        {placeholder && <option value=''>{placeholder}</option>}
-//        {options?.map((option) => (
-//          <option
-//            value={useLabel ? option.label : option.value}
-//            key={option.value}
-//            // selected={option.value.toString() == defaultValue?.toString()}
-//          >
-//            {option.label}
-//          </option>
-//        ))}
-//      </select>
-//    </div>
-//    <span className='text-sm font-medium  '>{hint}</span>
-//  </div>;

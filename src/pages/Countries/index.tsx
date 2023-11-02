@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { getAllCountries } from '../../queries/countryQueries';
 import { useState } from 'react';
+import { motion } from 'framer-motion';
 import { CountryCard, Loader, SearchBar, SelectInput } from '../../components';
 
 export const Countries = () => {
@@ -24,33 +25,43 @@ export const Countries = () => {
   };
   const handleFilter = (e: any) => {
     const filteredCountries =
-      data?.filter((d) => d.region.toLowerCase().includes(e.target.value)) ||
-      [];
+      data?.filter((d) =>
+        d.region.toLowerCase().includes(e.target.value.toLowerCase())
+      ) || [];
     setCountries([...filteredCountries]);
   };
   return isLoading ? (
     <Loader />
   ) : (
     <div className='py-10 px-12 md:p-20'>
-      <div>
+      <div className='flex flex-col md:flex-row w-full gap-y-8 md:justify-between'>
         <SearchBar handleChange={handleChange} />
         <SelectInput
           placeholder='Filter by Region'
           options={[
             { label: 'None', value: '' },
             { label: 'Africa', value: 'Africa' },
+            { label: 'America', value: 'America' },
+            { label: 'Europe', value: 'Europe' },
+            { label: 'Asia', value: 'Asia' },
+            { label: 'Oceania', value: 'Asia' },
           ]}
           onChange={handleFilter}
           name='region'
         />
       </div>
-      <ul className='mt-8 md:mt-12 grid place-items-center md:place-items-stretch  grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-[75px] gap-y-10 md:gap-y-[75px] w-full'>
+      <motion.ul
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        key={countries?.toString()}
+        className='mt-8 md:mt-12 grid place-items-stretch md:place-items-stretch  grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-[75px] gap-y-10 md:gap-y-[75px] w-full'
+      >
         {countries?.map((country) => (
           <li key={country.name.common}>
             <CountryCard country={country} />
           </li>
         ))}
-      </ul>
+      </motion.ul>
     </div>
   );
 };

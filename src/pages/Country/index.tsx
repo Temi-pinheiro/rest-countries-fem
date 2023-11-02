@@ -1,5 +1,5 @@
 import { Link } from '@tanstack/react-router';
-
+import { motion } from 'framer-motion';
 export const Country = ({
   country,
   countries,
@@ -67,7 +67,12 @@ export const Country = ({
         </svg>
         Back
       </Link>
-      <div className='mt-16 md:mt-20 flex flex-col md:flex-row md:items-center w-full md:gap-x-[120px]'>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        key={country.cca3}
+        className='mt-16 md:mt-20 flex flex-col md:flex-row md:items-center w-full md:gap-x-[120px]'
+      >
         <span className='w-full rounded-[10px] max-w-[560px] h-[275px] md:h-max xl:h-[400px] max-h-[400px] shrink'>
           <img
             className='object-center object-cover rounded-[10px] h-full w-full shrink'
@@ -147,7 +152,7 @@ export const Country = ({
             </footer>
           ) : null}
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 };
