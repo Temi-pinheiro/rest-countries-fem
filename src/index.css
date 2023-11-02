@@ -3,10 +3,10 @@
 @tailwind components;
 @tailwind utilities;
 
-body,
+/* body,
 body * {
   @apply transition-all duration-100;
-}
+} */
 
 body.dark {
   @apply bg-[#202C36];

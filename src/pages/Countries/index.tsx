@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
-import { Link } from '@tanstack/react-router';
 import { getAllCountries } from '../../queries/countryQueries';
 import { useState } from 'react';
+import { CountryCard, Loader, SearchBar, SelectInput } from '../../components';
 
 export const Countries = () => {
   const [countries, setCountries] = useState<Country[] | undefined>();
@@ -15,16 +15,39 @@ export const Countries = () => {
     refetchOnMount: true,
   });
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const filteredCountries =
+      data?.filter((d) =>
+        d.name.common.toLowerCase().includes(e.target.value)
+      ) || [];
+    setCountries([...filteredCountries]);
+  };
+  const handleFilter = (e: any) => {
+    const filteredCountries =
+      data?.filter((d) => d.region.toLowerCase().includes(e.target.value)) ||
+      [];
+    setCountries([...filteredCountries]);
+  };
   return isLoading ? (
-    <div>Loading...</div>
+    <Loader />
   ) : (
-    <div>
-      <ul>
+    <div className='py-10 px-12 md:p-20'>
+      <div>
+        <SearchBar handleChange={handleChange} />
+        <SelectInput
+          placeholder='Filter by Region'
+          options={[
+            { label: 'None', value: '' },
+            { label: 'Africa', value: 'Africa' },
+          ]}
+          onChange={handleFilter}
+          name='region'
+        />
+      </div>
+      <ul className='mt-8 md:mt-12 grid place-items-center md:place-items-stretch  grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-[75px] gap-y-10 md:gap-y-[75px] w-full'>
         {countries?.map((country) => (
           <li key={country.name.common}>
-            <Link to='/$country' params={{ country: country.name.official }}>
-              {country.name.common}
-            </Link>
+            <CountryCard country={country} />
           </li>
         ))}
       </ul>

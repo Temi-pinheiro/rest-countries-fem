@@ -78,7 +78,7 @@ export const Country = ({
           <h1 className='font-extrabold text-[22px] md:text-[32px] w-full'>
             {country.name.official}
           </h1>
-          <section className='w-full mt-4 md:mt-6 gap-y-8 md:gap-y-0 text-sm md:text-base flex flex-col md:flex-row items-start md:justify-between'>
+          <section className='w-full mt-4 md:mt-6 gap-y-8 md:gap-y-0 text-sm md:text-base flex flex-col md:flex-row items-start md:justify-between max-w-[598px]'>
             <ul className='flex flex-col gap-y-2 md:max-w-[250px]'>
               <li>
                 <strong className='font-semibold'>Native Name: </strong>
